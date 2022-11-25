@@ -1,0 +1,26 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
+        jcenter() // Warning: this repository is not receiving updates
+        maven {url 'https://mvnrepository.com'} // ADDED THIS
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url("https://oss.sonatype.org/content/repositories/snapshots/") }
+    }
+}
+rootProject.name = "yapeTest"
+include ':app'
+include ':core'
+include ':data'
+include ':domain'
+include ':domain-di'
+include ':features'
+include ':features:home'
