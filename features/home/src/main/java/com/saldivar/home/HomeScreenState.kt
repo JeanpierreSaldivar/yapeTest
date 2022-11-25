@@ -6,4 +6,7 @@ package com.saldivar.home
  * Lima, Peru.
  **/
 interface HomeScreenState {
+    object Loading : HomeScreenState
+    data class Success(val data: String) : HomeScreenState
+    data class Failure(val exception: Exception) : HomeScreenState
 }
