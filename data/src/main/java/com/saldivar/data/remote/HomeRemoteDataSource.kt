@@ -1,5 +1,6 @@
 package com.saldivar.data.remote
 
+import com.saldivar.data.response.CoordinatesResponse
 import com.saldivar.data.response.ListRecipeResponse
 
 /**

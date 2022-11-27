@@ -8,7 +8,9 @@ package com.saldivar.detail
 data class RecipeModelDetailUI(
     val image : String?,
     val name :String?,
-    val listIngredients :List<IngredientsModelUI?>
+    val listIngredients :List<IngredientsModelUI?>,
+    val description :String?,
+    val country : String?
 )
 
 data class IngredientsModelUI(

@@ -9,12 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.saldivar.core.convertJson
-import com.saldivar.core.convertObject
+import com.saldivar.core.*
 import com.saldivar.detail.databinding.FragmentDetailRecipeBinding
+import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class DetailRecipeFragment : Fragment() {
 
     private val viewModel: DetailRecipeViewModel by viewModels()
@@ -47,7 +48,35 @@ class DetailRecipeFragment : Fragment() {
     }
 
     private fun observeViewModelChanges()= with(viewModel) {
+        screenState.observeEvent(viewLifecycleOwner){
+            onNewState(it)
+        }
+    }
 
+    private fun onNewState(state: DetailRecipeScreenState) {
+        when(state){
+            is DetailRecipeScreenState.LoadData -> {
+                showData(state.recipe)
+            }
+            DetailRecipeScreenState.hasLocation -> showButtonLocation()
+            DetailRecipeScreenState.hasNotLocation -> hideButtonLocation()
+            is DetailRecipeScreenState.LoadLocation -> TODO()
+            DetailRecipeScreenState.Loading -> TODO()
+        }
+    }
+
+    private fun hideButtonLocation()= with(binding) {
+        buttonMap.visibility = View.GONE
+    }
+
+    private fun showButtonLocation() = with(binding){
+        buttonMap.visibility = View.VISIBLE
+    }
+
+    private fun showData(recipe: RecipeModelDetailUI)=with(binding) {
+        recipe.image?.let { imageDish.loadByResourceWithoutCache(it) }
+        nameDish.text = recipe.name?.convertCapitalized()
+        descriptionDish.text = recipe.description
     }
 
     private fun initViews() {
@@ -56,11 +85,17 @@ class DetailRecipeFragment : Fragment() {
     }
 
     private fun setDataRecipeModelDetail() {
-        val model = args.recipeModelDetail.convertObject(RecipeModelDetailUI::class.java)
+        val model = args.recipeModelDetail.convertObject<RecipeModelDetailUI>()
+        viewModel.postEvent(DetailRecipeScreenEvent.onDataLoad(model))
     }
 
     private fun setupAddButton()= with(binding) {
+        backArrow.setOnClickListener{
+            navigator.onBack()
+        }
+        buttonMap.setOnClickListener{
 
+        }
     }
 
 }

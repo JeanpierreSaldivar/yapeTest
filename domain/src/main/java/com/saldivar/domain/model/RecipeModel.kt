@@ -8,7 +8,9 @@ package com.saldivar.domain.model
 data class RecipeModel(
     val image : String?,
     val name :String?,
-    val listIngredients :List<IngredientsModel?>
+    val listIngredients :List<IngredientsModel?>,
+    val description :String?,
+    val country : String?
 )
 
 data class IngredientsModel(

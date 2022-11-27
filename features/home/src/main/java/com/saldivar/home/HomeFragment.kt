@@ -75,7 +75,7 @@ class HomeFragment : Fragment() {
 
     private fun setupAddButton() = with(binding){
         ivClose.setOnClickListener {
-            etSearch.setText("")
+            if (etSearch.text?.isNotEmpty() == true) etSearch.setText("")
         }
     }
 

@@ -28,7 +28,7 @@ class RecipeListAdapter(
 
         holder.itemView.setOnClickListener {
             val model = getItem(holder.adapterPosition)
-            onItemSelector.onItemClick(model.convertJson())
+            onItemSelector.onItemClick(convertJson(model))
         }
 
         holder.bind(getItem(holder.adapterPosition))

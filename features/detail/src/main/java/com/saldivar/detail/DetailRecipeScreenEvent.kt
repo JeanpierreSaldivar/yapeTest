@@ -9,4 +9,7 @@ sealed class DetailRecipeScreenEvent {
     data class OnMapLocationButtonClicked(
         val recipe: RecipeModelDetailUI,
     ) : DetailRecipeScreenEvent()
+    data class onDataLoad(
+        val recipe: RecipeModelDetailUI,
+    ) : DetailRecipeScreenEvent()
 }

@@ -1,5 +1,6 @@
 package com.saldivar.data.response
 
+
 /**
  * Created by César Jeanpierre Saldivar on 25/11/2022.
  * @devjeanpierre
@@ -12,9 +13,12 @@ data class ListRecipeResponse(
 data class RecipeResponse(
     val image : String?,
     val name :String?,
-    val listIngredients :List<IngredientsResponse?>
+    val listIngredients :List<IngredientsResponse?>,
+    val description :String?,
+    val country :String?,
 )
 
 data class IngredientsResponse(
     val ingredient : String?,
 )
+

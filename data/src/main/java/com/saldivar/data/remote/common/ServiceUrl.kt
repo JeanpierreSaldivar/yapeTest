@@ -8,4 +8,5 @@ package com.saldivar.data.remote.common
 object ServiceUrl {
     const val BASE_URL = "http://demo8767176.mockable.io/"
     const val LIST_RECIPE = "list_recipe"
+    const val LOCATION = "location/{country}"
 }

@@ -21,7 +21,9 @@ class ViewMapper
                     IngredientsModelUI(
                         element?.ingredient
                     )
-                }?: listOf()
+                }?: listOf(),
+                description = it?.description,
+                country = it?.country
             )
         }
     }
