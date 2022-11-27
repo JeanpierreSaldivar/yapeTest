@@ -11,5 +11,10 @@ data class ListRecipeResponse(
 
 data class RecipeResponse(
     val image : String?,
-    val name :String?
+    val name :String?,
+    val listIngredients :List<IngredientsResponse?>
+)
+
+data class IngredientsResponse(
+    val ingredient : String?,
 )

@@ -30,6 +30,6 @@
     </style>
 
     <style name="HomeBackground">
-        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:background">@color/beer_color</item>
     </style>
 </resources>

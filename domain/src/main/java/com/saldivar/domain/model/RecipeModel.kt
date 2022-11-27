@@ -7,5 +7,10 @@ package com.saldivar.domain.model
  **/
 data class RecipeModel(
     val image : String?,
-    val name :String?
+    val name :String?,
+    val listIngredients :List<IngredientsModel?>
+)
+
+data class IngredientsModel(
+    val ingredient : String?,
 )

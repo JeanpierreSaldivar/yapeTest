@@ -1,6 +1,8 @@
 package com.saldivar.data.mapper
 
+import com.saldivar.data.response.IngredientsResponse
 import com.saldivar.data.response.RecipeResponse
+import com.saldivar.domain.model.IngredientsModel
 import com.saldivar.domain.model.RecipeModel
 
 /**
@@ -12,7 +14,13 @@ class RecipeMapper {
     fun fromRecipeResponseToRecipeModel(result: RecipeResponse): RecipeModel {
         return RecipeModel(
             image = result.image,
-            name = result.name
+            name = result.name,
+            listIngredients = result.listIngredients.map {
+                IngredientsModel(
+                    it?.ingredient
+                )
+            }
         )
     }
+
 }

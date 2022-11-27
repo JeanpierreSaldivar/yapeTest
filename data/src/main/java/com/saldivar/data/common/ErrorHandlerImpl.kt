@@ -1,5 +1,4 @@
 package com.saldivar.data.common
-import com.google.firebase.auth.FirebaseAuthException
 import com.saldivar.domain.common.Error
 import com.saldivar.domain.common.ErrorHandler
 

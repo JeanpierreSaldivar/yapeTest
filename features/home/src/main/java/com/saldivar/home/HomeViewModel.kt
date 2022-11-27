@@ -10,6 +10,7 @@ import com.saldivar.domain.common.Error
 import com.saldivar.domain.common.ResultWrapper
 import com.saldivar.domain.model.RecipeModel
 import com.saldivar.domain.usecase.GetListRecipeUseCase
+import com.saldivar.home.adapter.RecipeModelUI
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,12 +23,11 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getListRecipeUseCase: GetListRecipeUseCase,
+    private val viewMapper: ViewMapper
 ): ViewModel() {
-
-    private var textSearch: String = ""
-
+    private var listRecipeShow: List<RecipeModelUI?> = listOf()
     private val _screenState: MutableLiveData<Event<HomeScreenState>> =
-        MutableLiveData(Event(HomeScreenState.Initial))
+        MutableLiveData()
     val screenState: LiveData<Event<HomeScreenState>>
         get() = _screenState
 
@@ -35,14 +35,9 @@ class HomeViewModel @Inject constructor(
     val error: LiveData<Event<SnackBarError>>
         get() = _error
 
-    private val _listRecipe: MutableLiveData<Event<List<RecipeModel?>>> = MutableLiveData()
-    val listRecipe: LiveData<Event<List<RecipeModel?>>>
-        get() = _listRecipe
-
     fun postEvent(event: HomeScreenEvent) {
         when (event) {
             is HomeScreenEvent.OnTextChanged-> getListRecipeSearch(event.searchNameIngredient)
-            is HomeScreenEvent.OnDetailButtonClicked -> detailRecipe(event.recipe)
             HomeScreenEvent.LoadListRecipeAll -> getListRecipeAll()
         }
     }
@@ -53,7 +48,6 @@ class HomeViewModel @Inject constructor(
             val result = getListRecipeUseCase(Unit)
             when(result){
                 is ResultWrapper.Failure ->{
-                    _screenState.value = Event(HomeScreenState.Initial)
                     onFailure(result.error)
                 }
                 is ResultWrapper.Success<List<RecipeModel?>> -> {
@@ -64,7 +58,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun onGetListSuccess(value: List<RecipeModel?>) {
-        _listRecipe.value = Event(value)
+        listRecipeShow = viewMapper.fromModelToView(value)
+        validateListEmpty(listRecipeShow)
     }
 
     private fun onFailure(error: Error) {
@@ -79,12 +74,23 @@ class HomeViewModel @Inject constructor(
             Event(SnackBarError(error))
     }
 
-    private fun detailRecipe(recipe: RecipeModel) {
-
-    }
-
     private fun getListRecipeSearch(searchNameIngredient: String) {
-
+        if (searchNameIngredient.isEmpty()){
+            getListRecipeAll()
+        }else{
+            _screenState.value = Event(HomeScreenState.Loading)
+            val list = searchTextInListRecipe(searchNameIngredient)
+            validateListEmpty(list)
+        }
     }
 
+    private fun searchTextInListRecipe(searchNameIngredient: String) = listRecipeShow.filter { model-> model?.name?.contains(searchNameIngredient) == true || model?.listIngredients?.firstOrNull{ it?.ingredient?.contains(searchNameIngredient) == true }!= null}
+
+    private fun validateListEmpty(value: List<RecipeModelUI?>){
+        if (value.isNotEmpty()){
+            _screenState.value = Event(HomeScreenState.DataLoaded(value))
+        }else{
+            _screenState.value = Event(HomeScreenState.EmptyState)
+        }
+    }
 }

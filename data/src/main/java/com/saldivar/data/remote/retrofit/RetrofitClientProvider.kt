@@ -1,10 +1,13 @@
 package com.saldivar.data.remote
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.saldivar.data.remote.common.ServiceUrl.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 /**
  * Created by César Jeanpierre Saldivar on 25/11/2022.
@@ -17,9 +20,12 @@ fun getLoggingInterceptor() = HttpLoggingInterceptor().apply {
     level = HttpLoggingInterceptor.Level.BODY
 }
 
+fun gsonGet(): Gson = GsonBuilder()
+    .setLenient()
+    .create()
 fun buildRetrofit(client: OkHttpClient): Retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
-    .addConverterFactory(GsonConverterFactory.create())
+    .addConverterFactory(GsonConverterFactory.create(gsonGet()))
     .client(client)
     .build()
 
