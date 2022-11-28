@@ -108,6 +108,12 @@ class DetailRecipeFragment : Fragment() {
     private fun showData(recipe: RecipeModelDetailUI)=with(binding) {
         recipe.image?.let { imageDish.loadByResourceWithoutCache(it) }
         nameDish.text = recipe.name?.convertCapitalized()
+        var ingredientes = ""
+        recipe.listIngredients.forEach {element->
+            val sign = if(element?.ingredient == recipe.listIngredients.last()?.ingredient) "." else ","
+            element?.run{ ingredientes += "${element.ingredient}$sign " }
+        }
+        ingredientsDish.text =ingredientes
         descriptionDish.text = recipe.description
     }
 
