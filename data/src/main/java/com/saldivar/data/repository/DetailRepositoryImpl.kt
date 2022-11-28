@@ -18,7 +18,11 @@ class DetailRepositoryImpl(
     private val locationMapper : LocationMapper
 ) : DetailRepository {
     override suspend fun getLocation(country: String): CoordinatesModel {
-        val result = detailRemoteDataSource.getLocation(country)
-        return locationMapper.fromCoordinatesResponseToCoordinatesModel(result)
+        if(country.isNotEmpty()){
+            val result = detailRemoteDataSource.getLocation(country)
+            return locationMapper.fromCoordinatesResponseToCoordinatesModel(result)
+        }else{
+            throw RuntimeException("Country should not be empty")
+        }
     }
 }

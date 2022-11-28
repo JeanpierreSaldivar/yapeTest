@@ -9,10 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.saldivar.core.*
 import com.saldivar.detail.databinding.FragmentDetailRecipeBinding
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -20,7 +20,7 @@ class DetailRecipeFragment : Fragment() {
 
     private val viewModel: DetailRecipeViewModel by viewModels()
 
-    private val args: DetailRecipeFragmentArgs by navArgs()
+    private val args : DetailRecipeFragmentArgs by navArgs()
 
     @Inject
     lateinit var navigator: DetailRecipeNavigator
@@ -34,7 +34,7 @@ class DetailRecipeFragment : Fragment() {
     ): View {
         val contextThemeWrapper: Context =
             ContextThemeWrapper(
-                requireContext(), com.saldivar.core.R.style.HomeTheme
+                requireContext(), com.saldivar.core.R.style.DetailTheme
             )
         val localInflater: LayoutInflater = inflater.cloneInContext(contextThemeWrapper)
         binding = FragmentDetailRecipeBinding.inflate(localInflater)
@@ -51,6 +51,17 @@ class DetailRecipeFragment : Fragment() {
         screenState.observeEvent(viewLifecycleOwner){
             onNewState(it)
         }
+        error.observeEvent(viewLifecycleOwner){
+            if (it.show) {
+                hideLoading()
+                showSnackBarError(it.message, Snackbar.LENGTH_LONG)
+            }
+        }
+    }
+
+    private fun initViews() {
+        setupAddButton()
+        setDataRecipeModelDetail()
     }
 
     private fun onNewState(state: DetailRecipeScreenState) {
@@ -58,11 +69,32 @@ class DetailRecipeFragment : Fragment() {
             is DetailRecipeScreenState.LoadData -> {
                 showData(state.recipe)
             }
-            DetailRecipeScreenState.hasLocation -> showButtonLocation()
-            DetailRecipeScreenState.hasNotLocation -> hideButtonLocation()
-            is DetailRecipeScreenState.LoadLocation -> TODO()
-            DetailRecipeScreenState.Loading -> TODO()
+            DetailRecipeScreenState.hasLocation -> {
+                hideLoading()
+                showButtonLocation()
+            }
+            DetailRecipeScreenState.hasNotLocation -> {
+                hideLoading()
+                hideButtonLocation()
+            }
+            is DetailRecipeScreenState.LoadLocation -> {
+                hideLoading()
+                openMap(state)
+            }
+            DetailRecipeScreenState.Loading -> showLoading()
         }
+    }
+
+    private fun openMap(state: DetailRecipeScreenState.LoadLocation) {
+        navigator.navigateOnMap(longitude = state.longitude, latitude = state.latitude, countryName = state.countryName)
+    }
+
+    private fun showLoading()= with(binding) {
+        clLoading.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading()= with(binding) {
+        clLoading.visibility = View.GONE
     }
 
     private fun hideButtonLocation()= with(binding) {
@@ -79,14 +111,8 @@ class DetailRecipeFragment : Fragment() {
         descriptionDish.text = recipe.description
     }
 
-    private fun initViews() {
-        setupAddButton()
-        setDataRecipeModelDetail()
-    }
-
     private fun setDataRecipeModelDetail() {
-        val model = args.recipeModelDetail.convertObject<RecipeModelDetailUI>()
-        viewModel.postEvent(DetailRecipeScreenEvent.onDataLoad(model))
+        viewModel.postEvent(DetailRecipeScreenEvent.onDataLoad(recipeModelDetail()))
     }
 
     private fun setupAddButton()= with(binding) {
@@ -94,8 +120,13 @@ class DetailRecipeFragment : Fragment() {
             navigator.onBack()
         }
         buttonMap.setOnClickListener{
-
+            recipeModelDetail().country?.run{
+                viewModel.postEvent(DetailRecipeScreenEvent.OnMapLocationButtonClicked(this))
+            }?:run{
+                hideButtonLocation()
+            }
         }
     }
 
+    private fun recipeModelDetail() =args.recipeModelDetail.convertObject<RecipeModelDetailUI>()
 }

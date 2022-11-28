@@ -11,8 +11,36 @@
         android:label="fragment_detail_recipe"
         tools:layout="@layout/fragment_detail_recipe"
         >
+        <action
+            android:id="@+id/action_detail_recipe_fragment_to_map_location_dish_fragment"
+            app:destination="@+id/mapLocationDishFragment">
+            <argument
+                android:name="latitude"
+                app:argType="string"/>
+            <argument
+                android:name="longitude"
+                app:argType="string"/>
+            <argument
+                android:name="country"
+                app:argType="string"/>
+        </action>
         <argument
             android:name="recipeModelDetail"
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/mapLocationDishFragment"
+        android:name="com.saldivar.detail.map.MapLocationDishFragment"
+        android:label="fragment_map_location_dish"
+        tools:layout="@layout/fragment_map_location_dish">
+        <argument
+            android:name="latitude"
+            app:argType="string"/>
+        <argument
+            android:name="longitude"
+            app:argType="string"/>
+        <argument
+            android:name="country"
             app:argType="string"/>
     </fragment>
 

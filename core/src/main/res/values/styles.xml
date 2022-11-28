@@ -28,8 +28,29 @@
     <style name="HomeTextTextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.FilledBox">
         <item name="android:background">?attr/colorSurface</item>
     </style>
-
     <style name="HomeBackground">
+        <item name="android:background">@color/beer_color</item>
+    </style>
+    <!-- Detail -->
+
+    <style name="DetailTheme" parent="AppTheme">
+        <item name="textInputStyle">@style/DetailTextTextInputLayout</item>
+        <item name="editTextStyle">@style/DetailTextTextInputEditText</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/black</item>
+    </style>
+
+    <style name="DetailTextTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">?attr/colorSurface</item>
+        <item name="android:background">?attr/colorSurface</item>
+    </style>
+
+    <style name="DetailTextTextInputEditText" parent="Widget.MaterialComponents.TextInputEditText.FilledBox">
+        <item name="android:background">?attr/colorSurface</item>
+    </style>
+
+    <style name="DetailBackground">
         <item name="android:background">@color/beer_color</item>
     </style>
 </resources>

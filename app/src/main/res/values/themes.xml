@@ -22,4 +22,6 @@
     <style name="Theme.YapeTest.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.YapeTest.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
 </resources>

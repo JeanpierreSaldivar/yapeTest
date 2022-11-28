@@ -6,6 +6,6 @@ package com.saldivar.detail
  * Lima, Peru.
  **/
 interface DetailRecipeNavigator {
-    fun navigateOnMap(longitude:String,latitude:String)
+    fun navigateOnMap(longitude:String,latitude:String,countryName:String)
     fun onBack()
 }

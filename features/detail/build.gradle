@@ -67,4 +67,6 @@ dependencies {
     def sdp_android_version = '1.0.5'
     implementation "com.intuit.sdp:sdp-android:$sdp_android_version"
     implementation "com.intuit.ssp:ssp-android:$sdp_android_version"
+
+    implementation "com.google.android.gms:play-services-maps:18.1.0"
 }

@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="sans-serif-medium"
-                    android:text="Descripción:"
+                    android:text="@string/description"
                     android:textSize="@dimen/_18ssp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -100,7 +100,7 @@
             android:id="@+id/buttonMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ubicación"
+            android:text="@string/location"
             android:padding="@dimen/_3sdp"
             android:background="@drawable/button_radius"
             android:drawableEnd="@drawable/ic_baseline_location_on_24"
@@ -114,6 +114,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clLoading"
         android:background="@color/curtain"
         android:visibility="gone"
         android:layout_width="match_parent"

@@ -1,11 +1,10 @@
 package com.saldivar.yapetest
 
 import androidx.navigation.NavController
+import com.saldivar.detail.DetailRecipeFragmentDirections
 import com.saldivar.detail.DetailRecipeNavigator
-import com.saldivar.home.HomeFragment
 import com.saldivar.home.HomeFragmentDirections
 import com.saldivar.home.HomeNavigator
-import com.saldivar.home.adapter.RecipeModelUI
 import java.lang.ref.WeakReference
 
 /**
@@ -31,8 +30,13 @@ object RouteNavigator: HomeNavigator,DetailRecipeNavigator {
             )
     }
 
-    override fun navigateOnMap(longitude: String, latitude: String) {
-        //TODO("Not yet implemented")
+    override fun navigateOnMap(longitude: String, latitude: String,countryName:String) {
+        navController?.get()
+            ?.navigate(
+                DetailRecipeFragmentDirections.actionDetailRecipeFragmentToMapLocationDishFragment(
+                    latitude, longitude, countryName
+                )
+            )
     }
 
     override fun onBack() {

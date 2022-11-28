@@ -45,8 +45,7 @@ class HomeViewModel @Inject constructor(
     private fun getListRecipeAll() {
         viewModelScope.launch {
             _screenState.value = Event(HomeScreenState.Loading)
-            val result = getListRecipeUseCase(Unit)
-            when(result){
+            when(val result = getListRecipeUseCase(Unit)){
                 is ResultWrapper.Failure ->{
                     onFailure(result.error)
                 }

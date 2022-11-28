@@ -7,7 +7,7 @@ package com.saldivar.detail
  **/
 sealed class DetailRecipeScreenEvent {
     data class OnMapLocationButtonClicked(
-        val recipe: RecipeModelDetailUI,
+        val country: String,
     ) : DetailRecipeScreenEvent()
     data class onDataLoad(
         val recipe: RecipeModelDetailUI,
